@@ -16,24 +16,21 @@ namespace MitchellClaims
         public ViewClaims(List<MitchellClaimType> claims)
         {
             InitializeComponent();
+            // Build it's own local version of the DB
             this.claims = new List<MitchellClaimType>();
-            if (this.claims == null) { System.Console.WriteLine("Null was encountered"); }
-            else
-            {
-                this.claims = claims;
-                dataGridView1.DataSource = claims;
-
-            }
+            this.claims = claims;
+            // Render the data in a DataGrid View
+            dataGridView1.DataSource = claims;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // Stub method
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Stub method
         }
     }
 }
