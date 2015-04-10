@@ -29,38 +29,15 @@ namespace MitchellClaims
         {
             XmlSerializer ser = new XmlSerializer(typeof(MitchellClaimType));
             FileStream fs = new FileStream("create-claim.xml", FileMode.Open);
-            List<MitchellClaimType> newClaim = ser.Deserialize(fs) as List<MitchellClaimType>;
+            MitchellClaimType newClaim = ser.Deserialize(fs) as MitchellClaimType;
             if (newClaim != null)
             {
-                // To keep track of how new entries are added
-                List<string> failed = new List<string>();
-                Boolean success = false;
-                int numAdded = 0;
-                int numFailed = 0;
-
-                // Loop through and add all the new claims
-                for (int i = 0; i < newClaim.Count; i++)
-                {
-                    success = claimsDB.Add(newClaim[i]);
-                    //Console.WriteLine("Claim #" + newClaim.ClaimNumber +" add status: " + result);
-                    //Console.WriteLine("Size of hashset: " + claimsDB.Count);
-                    //Console.WriteLine("hashcode: " + newClaim.GetHashCode());
-                    if (success)
-                    {
-                        numAdded++;
-                        Console.WriteLine("Added");
-                    }
-                    else
-                    {
-                        numFailed++;
-                        failed.Add(newClaim[i].ClaimNumber);
-                    }
-                    // For safety reasons, reset success to false
-                    success = false;
-                }
-                // Report the adding!
-                //MessageBox.Show(numAdded + " new claims added, " + numFailed + " claims failed.");
-                // Save the claim ID's for later
+                bool result = claimsDB.Add(newClaim);
+                //Console.WriteLine("Claim #" + newClaim.ClaimNumber +" add status: " + result);
+                //Console.WriteLine("Size of hashset: " + claimsDB.Count);
+                //Console.WriteLine("hashcode: " + newClaim.GetHashCode());
+                if (!result) { MessageBox.Show("Claim already exists in the Database!"); }
+                else MessageBox.Show("Claim was succesfully added!");
             }
             // Remember to close the file!
             fs.Close();
